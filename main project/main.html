@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>College Management System</title>
+    
+    <link rel="icon" type="image/x-icon" href="./assest/college-icon.webp">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-image:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./assest/education.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            
+        }
+        
+        .container {
+            
+            
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0fbbeb;
+            margin: 30px 0;
+            font-size: 4em;
+        }
+
+        .boxes-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .box {
+            width: 300px;
+            height: 350px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+        }
+
+        .box img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }.box h2 {
+            text-align: center;
+            padding: 20px;
+            color: #1a237e;
+        }
+
+        .box p {
+            text-align: center;
+            padding: 0 20px;
+            color: #666;
+        }
+
+        .form-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .form {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form h3 {
+            margin-bottom: 20px;
+            color: #1a237e;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            background: #1a237e;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background: #283593;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>College Management System</h1>
+        <div class="boxes-container">
+            <div class="box" onclick="showForm('student')">
+                <img src="./assest/th.jpg" alt="Student">
+                <h2>Student Portal</h2>
+                <p>Access your academic records, assignments, and more</p>
+            </div>
+            <div class="box" onclick="showForm('teacher')">
+                <img src="./assest/th (1).jpg" alt="Teacher">
+                <h2>Teacher Portal</h2>
+                <p>Manage classes, grades, and student information</p>
+            </div>
+            <div class="box" onclick="showForm('admin')">
+                <img src="./assest/admin.webp" alt="Admin">
+                <h2>Admin Portal</h2>
+                <p>Control system settings and user management</p>
+            </div>
+        </div>
+    </div>    
+    <div id="studentForm" class="form-container">
+        <div class="form">
+            <button class="close-btn" onclick="hideForm('student')">&times;</button>
+            <h3>Student Login</h3>
+            <div class="form-group">
+                <label for="studentId">Student ID</label>
+                <input type="text" id="studentId" required>
+            </div>
+            <div class="form-group">
+                <label for="studentPassword">Password</label>
+                <input type="password" id="studentPassword" required>
+            </div>
+            <button class="submit-btn" onclick="submitForm('student')" >Login</button>
+        </div>
+    </div>   
+    <div id="teacherForm" class="form-container">
+        <div class="form">
+            <button class="close-btn" onclick="hideForm('teacher')">&times;</button>
+            <h3>Teacher Login</h3>
+            <div class="form-group">
+                <label for="teacherId">Teacher ID</label>
+                <input type="text" id="teacherId" required>
+            </div>
+            <div class="form-group">
+                <label for="teacherPassword">Password</label>
+                <input type="password" id="teacherPassword" required>
+            </div>
+            <button class="submit-btn" onclick="submitForm('teacher')">Login</button>
+        </div>
+    </div> 
+    <div id="adminForm" class="form-container">
+        <div class="form">
+            <button class="close-btn" onclick="hideForm('admin')">&times;</button>
+            <h3>Admin Login</h3>
+            <div class="form-group">
+                <label for="adminId">Admin ID</label>
+                <input type="text" id="adminId" required>
+            </div>
+            <div class="form-group">
+                <label for="adminPassword">Password</label>
+                <input type="password" id="adminPassword" required>
+            </div>
+            <button class="submit-btn" onclick="submitForm('admin')">Login</button>
+        </div>
+    </div>
+    <script>
+        
+        function showForm(type) {
+            document.getElementById(`${type}Form`).style.display = 'flex';
+        }
+    
+        function hideForm(type) {
+            document.getElementById(`${type}Form`).style.display = 'none';
+        }
+    
+       
+        function submitForm(type) {
+            const id = document.getElementById(`${type}Id`).value;
+            const password = document.getElementById(`${type}Password`).value;
+            
+            
+            if (!id || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+    
+           
+            if (type === 'student') {
+                window.location.href = './student/index.html'; 
+            } else if (type === 'teacher') {
+                window.location.href = './teacher/index.html';
+            } else if (type === 'admin') {
+                window.location.href = './admin/index.html'; 
+            }
+    
+            hideForm(type); 
+    
+   
+        window.onclick = function(event) {
+            const forms = document.getElementsByClassName('form-container');
+            for (let form of forms) {
+                if (event.target === form) {
+                    form.style.display = 'none';
+                }
+            }
+        }}
+    </script>
+    
+
+</body>
+</html>

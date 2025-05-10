@@ -1,0 +1,21 @@
+Array
+(
+    [POST] => Array
+        (
+            [user_type] => student
+            [id] => STU001
+            [password] => student123
+        )
+
+    [user] => Array
+        (
+            [id] => STU001
+            [name] => John Student
+            [password] => PASTE_REAL_HASH_HERE
+            [email] => john@student.com
+            [created_at] => 2025-05-10 22:09:34
+        )
+
+    [password_verify] => 
+    [table] => students
+)

@@ -1,0 +1,238 @@
+<?php
+session_start();
+
+// Check if user is logged in and is a teacher
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'teacher') {
+    header("Location: index.php");
+    exit();
+}
+
+// Get user data
+$user_id = $_SESSION['user_id'];
+$username = $_SESSION['username'];
+$role = $_SESSION['role'];
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Portal - College Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background: #343a40;
+            color: white;
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,.8);
+            padding: 1rem;
+            margin: 0.2rem 0;
+            border-radius: 0.25rem;
+        }
+        .sidebar .nav-link:hover {
+            background: rgba(255,255,255,.1);
+            color: white;
+        }
+        .sidebar .nav-link.active {
+            background: #0d6efd;
+            color: white;
+        }
+        .main-content {
+            padding: 2rem;
+        }
+        .welcome-card {
+            background: linear-gradient(45deg, #198754, #20c997);
+            color: white;
+        }
+        .stats-card {
+            transition: transform 0.2s;
+        }
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 px-0 position-fixed sidebar">
+                <div class="p-3">
+                    <h4 class="text-center mb-4">Teacher Portal</h4>
+                    <div class="d-flex align-items-center mb-4">
+                        <i class="bi bi-person-circle fs-1 me-2"></i>
+                        <div>
+                            <h6 class="mb-0"><?php echo htmlspecialchars($username); ?></h6>
+                            <small class="text-muted">Faculty Member</small>
+                        </div>
+                    </div>
+                    <hr class="text-light">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#dashboard">
+                                <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#my-courses">
+                                <i class="bi bi-book me-2"></i>My Courses
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#students">
+                                <i class="bi bi-people me-2"></i>My Students
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#assignments">
+                                <i class="bi bi-file-text me-2"></i>Assignments
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#grades">
+                                <i class="bi bi-card-list me-2"></i>Grades
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#schedule">
+                                <i class="bi bi-calendar3 me-2"></i>Schedule
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#settings">
+                                <i class="bi bi-gear me-2"></i>Settings
+                            </a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <a class="nav-link text-danger" href="logout.php">
+                                <i class="bi bi-box-arrow-right me-2"></i>Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 ms-auto main-content">
+                <!-- Welcome Card -->
+                <div class="card welcome-card mb-4">
+                    <div class="card-body">
+                        <h2>Welcome, <?php echo htmlspecialchars($username); ?>!</h2>
+                        <p class="mb-0">Manage your courses and students efficiently</p>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card stats-card bg-primary text-white">
+                            <div class="card-body">
+                                <h5>My Courses</h5>
+                                <h2>4</h2>
+                                <small>Active courses</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stats-card bg-success text-white">
+                            <div class="card-body">
+                                <h5>Total Students</h5>
+                                <h2>120</h2>
+                                <small>Enrolled students</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stats-card bg-info text-white">
+                            <div class="card-body">
+                                <h5>Assignments</h5>
+                                <h2>8</h2>
+                                <small>Pending reviews</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stats-card bg-warning text-white">
+                            <div class="card-body">
+                                <h5>Classes Today</h5>
+                                <h2>3</h2>
+                                <small>Upcoming classes</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Today's Schedule -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Today's Schedule</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Advanced Mathematics</h6>
+                                    <small>9:00 AM - 10:30 AM</small>
+                                </div>
+                                <p class="mb-1">Room 101 | 30 students</p>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Physics Lab</h6>
+                                    <small>11:00 AM - 12:30 PM</small>
+                                </div>
+                                <p class="mb-1">Lab 3 | 25 students</p>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Computer Science</h6>
+                                    <small>2:00 PM - 3:30 PM</small>
+                                </div>
+                                <p class="mb-1">Room 205 | 35 students</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Recent Activities</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">New assignment submitted</h6>
+                                    <small>3 mins ago</small>
+                                </div>
+                                <p class="mb-1">John Doe submitted Physics Lab Report</p>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Course material updated</h6>
+                                    <small>1 hour ago</small>
+                                </div>
+                                <p class="mb-1">Advanced Mathematics syllabus updated</p>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">New student enrolled</h6>
+                                    <small>2 hours ago</small>
+                                </div>
+                                <p class="mb-1">Sarah Johnson joined Computer Science class</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
